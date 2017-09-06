@@ -1,0 +1,10 @@
+version: "3.2"
+services:
+  acquire-sackson-driver:
+    build: .    
+    container_name: acquire-sackson-driver
+    volumes:
+      - type: bind
+        source: .
+        target: /usr/lib/sackson    
+    command: ash -c "go get ./... && go build -buildmode=plugin -o /usr/lib/sackson/acquire.so"
