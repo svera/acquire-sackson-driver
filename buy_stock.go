@@ -21,7 +21,16 @@ func (b *AcquireDriver) buyStock(clientName string, params buyMessageParams) err
 	}
 
 	if err := b.game.BuyStock(buy); err != nil {
-		return err
+		if err.Error() == "no_tiles_available" {
+			b.history = append(b.history, i18n{
+				Key: "game.history.no_tiles_available",
+				Arguments: map[string]string{
+					"player": clientName,
+				},
+			})
+		} else {
+			return err
+		}
 	}
 	for corp, amount := range buy {
 		if amount > 0 {

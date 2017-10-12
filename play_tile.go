@@ -23,6 +23,15 @@ func (b *AcquireDriver) playTile(clientName string, params playTileMessageParams
 			})
 			return nil
 		}
+		if err.Error() == "no_tiles_available" {
+			b.history = append(b.history, i18n{
+				Key: "game.history.no_tiles_available",
+				Arguments: map[string]string{
+					"player": clientName,
+				},
+			})
+			return nil
+		}
 	}
 
 	return err
