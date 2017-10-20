@@ -215,4 +215,9 @@ func defaultCorporations() [7]acquireInterfaces.Corporation {
 	return corporations
 }
 
+// Name returns the name of the driver, used to identify which game it implements
+func (b *AcquireDriver) Name() string {
+	return "acquire"
+}
+
 func main() {}
