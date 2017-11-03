@@ -1,6 +1,6 @@
 # Acquire driver
 
-This package allows to build a driver to play Acquire games using the Sackson server.
+This package allows to build a driver to play (Acquire)[https://boardgamegeek.com/boardgame/5/acquire] using the (Sackson server)[https://github.com/svera/sackson-server].
 
 ## Usage
 

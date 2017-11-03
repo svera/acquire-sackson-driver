@@ -13,29 +13,18 @@ import (
 // several functions to send/receive data to/from a client using a websocket
 // connection
 type AIClient struct {
-	bot    acquireInterfaces.Bot
-	inTurn bool
+	bot acquireInterfaces.Bot
 }
 
 // FeedGameStatus updates the AI client with the current status of the game
 func (c *AIClient) FeedGameStatus(message json.RawMessage) error {
 	var content statusMessage
-	var err error
 
-	if err = json.Unmarshal(message, &content); err == nil {
-		c.updateBot(content)
-		c.inTurn = false
-		if content.PlayerInfo.InTurn {
-			c.inTurn = true
-		}
-		return nil
+	if err := json.Unmarshal(message, &content); err == nil {
+		return err
 	}
-	return err
-}
-
-// IsInTurn returns true if the AI is in turn, false otherwise.
-func (c *AIClient) IsInTurn() bool {
-	return c.inTurn
+	c.updateBot(content)
+	return nil
 }
 
 // Play makes the AI execute an action, returning its type and the content
