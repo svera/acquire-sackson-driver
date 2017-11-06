@@ -20,6 +20,7 @@ type AIClient struct {
 // FeedGameStatus updates the AI client with the current status of the game
 func (c *AIClient) FeedGameStatus(message json.RawMessage) error {
 	var content messages.Status
+
 	if err := json.Unmarshal(message, &content); err != nil {
 		return err
 	}
