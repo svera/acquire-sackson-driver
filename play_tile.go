@@ -4,17 +4,18 @@ import (
 	"errors"
 	"strconv"
 
+	"github.com/svera/acquire-sackson-driver/messages"
 	acquireInterfaces "github.com/svera/acquire/interfaces"
 	"github.com/svera/acquire/tile"
 )
 
-func (b *AcquireDriver) playTile(clientName string, params playTileMessageParams) error {
+func (b *AcquireDriver) playTile(clientName string, params messages.PlayTile) error {
 	var err error
 	var tl acquireInterfaces.Tile
 
 	if tl, err = coordsToTile(params.Tile); err == nil {
 		if err = b.game.PlayTile(tl); err == nil {
-			b.history = append(b.history, i18n{
+			b.history = append(b.history, messages.I18n{
 				Key: "game.history.played_tile",
 				Arguments: map[string]string{
 					"player": clientName,
@@ -24,7 +25,7 @@ func (b *AcquireDriver) playTile(clientName string, params playTileMessageParams
 			return nil
 		}
 		if err.Error() == "no_tiles_available" {
-			b.history = append(b.history, i18n{
+			b.history = append(b.history, messages.I18n{
 				Key: "game.history.no_tiles_available",
 				Arguments: map[string]string{
 					"player": clientName,

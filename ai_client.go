@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 
+	"github.com/svera/acquire-sackson-driver/messages"
 	"github.com/svera/acquire/bots"
 	acquireInterfaces "github.com/svera/acquire/interfaces"
 )
@@ -18,7 +19,7 @@ type AIClient struct {
 
 // FeedGameStatus updates the AI client with the current status of the game
 func (c *AIClient) FeedGameStatus(message json.RawMessage) error {
-	var content statusMessage
+	var content messages.Status
 
 	if err := json.Unmarshal(message, &content); err == nil {
 		return err
@@ -35,7 +36,7 @@ func (c *AIClient) Play() (string, json.RawMessage) {
 	return c.encodeResponse(bm)
 }
 
-func (c *AIClient) updateBot(parsed statusMessage) {
+func (c *AIClient) updateBot(parsed messages.Status) {
 	hand := map[string]bool{}
 	var corps [7]bots.CorpData
 	var playerInfo bots.PlayerData
@@ -99,48 +100,48 @@ func (c *AIClient) encodeResponse(m bots.Message) (string, json.RawMessage) {
 }
 
 func (c *AIClient) encodePlayTile(response bots.PlayTileResponseParams) (string, json.RawMessage) {
-	params := playTileMessageParams{
+	params := messages.PlayTile{
 		Tile: response.Tile,
 	}
 	ser, _ := json.Marshal(params)
-	return messageTypePlayTile, ser
+	return messages.TypePlayTile, ser
 }
 
 func (c *AIClient) encodeFoundCorporation(response bots.NewCorpResponseParams) (string, json.RawMessage) {
-	params := newCorpMessageParams{
+	params := messages.NewCorp{
 		CorporationIndex: response.CorporationIndex,
 	}
 	ser, _ := json.Marshal(params)
-	return messageTypeFoundCorporation, ser
+	return messages.TypeFoundCorporation, ser
 }
 
 func (c *AIClient) encodeBuyStock(response bots.BuyResponseParams) (string, json.RawMessage) {
-	params := buyMessageParams{
+	params := messages.Buy{
 		CorporationsIndexes: response.CorporationsIndexes,
 	}
 	ser, _ := json.Marshal(params)
-	return messageTypeBuyStock, ser
+	return messages.TypeBuyStock, ser
 }
 
 func (c *AIClient) encodeSellTrade(response bots.SellTradeResponseParams) (string, json.RawMessage) {
-	params := sellTradeMessageParams{
-		CorporationsIndexes: map[string]sellTrade{},
+	params := messages.SellTrade{
+		CorporationsIndexes: map[string]messages.SellTradeAmounts{},
 	}
 	for k, v := range response.CorporationsIndexes {
-		params.CorporationsIndexes[k] = sellTrade{v.Sell, v.Trade}
+		params.CorporationsIndexes[k] = messages.SellTradeAmounts{Sell: v.Sell, Trade: v.Trade}
 	}
 	ser, _ := json.Marshal(params)
-	return messageTypeSellTrade, ser
+	return messages.TypeSellTrade, ser
 }
 
 func (c *AIClient) encodeUntieMerge(response bots.UntieMergeResponseParams) (string, json.RawMessage) {
-	params := untieMergeMessageParams{
+	params := messages.UntieMerge{
 		CorporationIndex: response.CorporationIndex,
 	}
 	ser, _ := json.Marshal(params)
-	return messageTypeUntieMerge, ser
+	return messages.TypeUntieMerge, ser
 }
 
 func (c *AIClient) encodeEndGame() (string, json.RawMessage) {
-	return messageTypeEndGame, nil
+	return messages.TypeEndGame, nil
 }

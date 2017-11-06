@@ -4,9 +4,10 @@ import (
 	"errors"
 
 	"github.com/svera/acquire-sackson-driver/corporation"
+	"github.com/svera/acquire-sackson-driver/messages"
 )
 
-func (b *AcquireDriver) untieMerge(clientName string, params untieMergeMessageParams) error {
+func (b *AcquireDriver) untieMerge(clientName string, params messages.UntieMerge) error {
 	if params.CorporationIndex < 0 || params.CorporationIndex > 6 {
 		return errors.New(CorporationNotFound)
 	}
@@ -15,7 +16,7 @@ func (b *AcquireDriver) untieMerge(clientName string, params untieMergeMessagePa
 	if err := b.game.UntieMerge(corp); err != nil {
 		return err
 	}
-	b.history = append(b.history, i18n{
+	b.history = append(b.history, messages.I18n{
 		Key: "game.history.untied_merge",
 		Arguments: map[string]string{
 			"player":      clientName,

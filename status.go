@@ -7,6 +7,7 @@ import (
 	"strconv"
 
 	"github.com/svera/acquire-sackson-driver/corporation"
+	"github.com/svera/acquire-sackson-driver/messages"
 	"github.com/svera/acquire-sackson-driver/player"
 	acquireInterfaces "github.com/svera/acquire/interfaces"
 )
@@ -23,7 +24,7 @@ func (b *AcquireDriver) Status(playerNumber int) (interface{}, error) {
 	if err != nil {
 		return json.RawMessage{}, err
 	}
-	msg = statusMessage{
+	msg = messages.Status{
 		Board:       b.boardOwnership(),
 		State:       b.game.GameStateName(),
 		Corps:       b.corpsData(),
@@ -54,10 +55,10 @@ func (b *AcquireDriver) boardOwnership() map[string]string {
 	return cells
 }
 
-func (b *AcquireDriver) corpsData() [7]corpData {
-	var data [7]corpData
+func (b *AcquireDriver) corpsData() [7]messages.CorpData {
+	var data [7]messages.CorpData
 	for i, corp := range b.corporations {
-		data[i] = corpData{
+		data[i] = messages.CorpData{
 			Name:            corp.(*corporation.Corporation).Name(),
 			Price:           corp.StockPrice(),
 			MajorityBonus:   corp.MajorityBonus(),
@@ -86,9 +87,9 @@ func (b *AcquireDriver) tilesData(pl acquireInterfaces.Player) map[string]bool {
 	return hnd
 }
 
-func (b *AcquireDriver) playersInfo(n int) (playerData, []playerData, error) {
-	rivals := []playerData{}
-	var ply playerData
+func (b *AcquireDriver) playersInfo(n int) (messages.PlayerData, []messages.PlayerData, error) {
+	rivals := []messages.PlayerData{}
+	var ply messages.PlayerData
 	var err error
 
 	if _, exist := b.players[n]; !exist {
@@ -97,14 +98,14 @@ func (b *AcquireDriver) playersInfo(n int) (playerData, []playerData, error) {
 
 	for i, p := range b.players {
 		if n != i {
-			rivals = append(rivals, playerData{
+			rivals = append(rivals, messages.PlayerData{
 				Name:        p.(*player.Player).Name(),
 				Cash:        p.Cash(),
 				OwnedShares: b.playersShares(i),
 				InTurn:      b.isCurrentPlayer(i),
 			})
 		} else {
-			ply = playerData{
+			ply = messages.PlayerData{
 				Name:        p.(*player.Player).Name(),
 				Cash:        p.Cash(),
 				OwnedShares: b.playersShares(n),
