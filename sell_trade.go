@@ -5,10 +5,11 @@ import (
 	"strconv"
 
 	"github.com/svera/acquire-sackson-driver/corporation"
+	"github.com/svera/acquire-sackson-driver/messages"
 	acquireInterfaces "github.com/svera/acquire/interfaces"
 )
 
-func (b *AcquireDriver) sellTrade(clientName string, params sellTradeMessageParams) error {
+func (b *AcquireDriver) sellTrade(clientName string, params messages.SellTrade) error {
 	var err error
 	var corp acquireInterfaces.Corporation
 
@@ -30,7 +31,7 @@ func (b *AcquireDriver) sellTrade(clientName string, params sellTradeMessagePara
 	}
 	for corp, amount := range sell {
 		if amount > 0 {
-			b.history = append(b.history, i18n{
+			b.history = append(b.history, messages.I18n{
 				Key: "game.history.sold_stock",
 				Arguments: map[string]string{
 					"player":      clientName,
@@ -42,7 +43,7 @@ func (b *AcquireDriver) sellTrade(clientName string, params sellTradeMessagePara
 	}
 	for corp, amount := range trade {
 		if amount > 0 {
-			b.history = append(b.history, i18n{
+			b.history = append(b.history, messages.I18n{
 				Key: "game.history.traded_stock",
 				Arguments: map[string]string{
 					"player":      clientName,

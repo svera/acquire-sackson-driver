@@ -6,6 +6,7 @@ import (
 
 	"github.com/svera/acquire"
 	"github.com/svera/acquire-sackson-driver/corporation"
+	"github.com/svera/acquire-sackson-driver/messages"
 	"github.com/svera/acquire-sackson-driver/player"
 	"github.com/svera/acquire/bots"
 	acquireInterfaces "github.com/svera/acquire/interfaces"
@@ -17,7 +18,7 @@ type AcquireDriver struct {
 	game         *acquire.Game
 	players      map[int]acquireInterfaces.Player
 	corporations [7]acquireInterfaces.Corporation
-	history      []i18n
+	history      []messages.I18n
 }
 
 // NotEndGame defines the message returned when a player claims wrongly that end game conditions have been met
@@ -52,32 +53,32 @@ func (b *AcquireDriver) Execute(clientName string, t string, params json.RawMess
 	b.history = nil
 
 	switch t {
-	case messageTypePlayTile:
-		var parsed playTileMessageParams
+	case messages.TypePlayTile:
+		var parsed messages.PlayTile
 		if err = json.Unmarshal(params, &parsed); err == nil {
 			err = b.playTile(clientName, parsed)
 		}
-	case messageTypeFoundCorporation:
-		var parsed newCorpMessageParams
+	case messages.TypeFoundCorporation:
+		var parsed messages.NewCorp
 		if err = json.Unmarshal(params, &parsed); err == nil {
 			err = b.foundCorporation(clientName, parsed)
 		}
-	case messageTypeBuyStock:
-		var parsed buyMessageParams
+	case messages.TypeBuyStock:
+		var parsed messages.Buy
 		if err = json.Unmarshal(params, &parsed); err == nil {
 			err = b.buyStock(clientName, parsed)
 		}
-	case messageTypeSellTrade:
-		var parsed sellTradeMessageParams
+	case messages.TypeSellTrade:
+		var parsed messages.SellTrade
 		if err = json.Unmarshal(params, &parsed); err == nil {
 			err = b.sellTrade(clientName, parsed)
 		}
-	case messageTypeUntieMerge:
-		var parsed untieMergeMessageParams
+	case messages.TypeUntieMerge:
+		var parsed messages.UntieMerge
 		if err = json.Unmarshal(params, &parsed); err == nil {
 			err = b.untieMerge(clientName, parsed)
 		}
-	case messageTypeEndGame:
+	case messages.TypeEndGame:
 		err = b.claimEndGame(clientName)
 	default:
 		err = errors.New(WrongMessage)
@@ -127,7 +128,7 @@ func (b *AcquireDriver) RemovePlayer(number int) error {
 	playerName := b.players[number].(*player.Player).Name()
 	b.game.RemovePlayer(b.players[number])
 	delete(b.players, number)
-	b.history = append([]i18n{}, i18n{
+	b.history = append([]messages.I18n{}, messages.I18n{
 		Key: "game.history.player_left",
 		Arguments: map[string]string{
 			"player": playerName,
@@ -147,7 +148,7 @@ func (b *AcquireDriver) StartGame(clientNames map[int]string) error {
 	b.addPlayers(clientNames)
 
 	if b.game, err = acquire.New(b.players, acquire.Optional{Corporations: b.corporations}); err == nil {
-		b.history = append(b.history, i18n{
+		b.history = append(b.history, messages.I18n{
 			Key: "game.history.starter_player",
 			Arguments: map[string]string{
 				"player": b.currentPlayerName(),

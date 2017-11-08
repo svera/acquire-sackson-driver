@@ -5,10 +5,11 @@ import (
 	"strconv"
 
 	"github.com/svera/acquire-sackson-driver/corporation"
+	"github.com/svera/acquire-sackson-driver/messages"
 	acquireInterfaces "github.com/svera/acquire/interfaces"
 )
 
-func (b *AcquireDriver) buyStock(clientName string, params buyMessageParams) error {
+func (b *AcquireDriver) buyStock(clientName string, params messages.Buy) error {
 	buy := map[acquireInterfaces.Corporation]int{}
 
 	for corpIndex, amount := range params.CorporationsIndexes {
@@ -22,7 +23,7 @@ func (b *AcquireDriver) buyStock(clientName string, params buyMessageParams) err
 
 	if err := b.game.BuyStock(buy); err != nil {
 		if err.Error() == "no_tiles_available" {
-			b.history = append(b.history, i18n{
+			b.history = append(b.history, messages.I18n{
 				Key: "game.history.no_tiles_available",
 				Arguments: map[string]string{
 					"player": clientName,
@@ -34,7 +35,7 @@ func (b *AcquireDriver) buyStock(clientName string, params buyMessageParams) err
 	}
 	for corp, amount := range buy {
 		if amount > 0 {
-			b.history = append(b.history, i18n{
+			b.history = append(b.history, messages.I18n{
 				Key: "game.history.bought_stock",
 				Arguments: map[string]string{
 					"player":      clientName,
