@@ -95,6 +95,7 @@ func (c *AIClient) encodeResponse(m bots.Message) (string, json.RawMessage) {
 	case bots.EndGameResponseType:
 		return c.encodeEndGame()
 	default:
+		//return c.encodeOut()
 		panic(fmt.Sprintf("Unrecognized bot response: %s", m.Type))
 	}
 }
@@ -144,4 +145,12 @@ func (c *AIClient) encodeUntieMerge(response bots.UntieMergeResponseParams) (str
 
 func (c *AIClient) encodeEndGame() (string, json.RawMessage) {
 	return messages.TypeEndGame, nil
+}
+
+func (c *AIClient) encodeOut() (string, json.RawMessage) {
+	params := messages.ClientOut{
+		Reason: "fai",
+	}
+	ser, _ := json.Marshal(params)
+	return messages.TypeClientOut, ser
 }

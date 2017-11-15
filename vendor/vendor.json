@@ -1,30 +1,60 @@
 {
 	"comment": "",
-	"ignore": "",
+	"ignore": "test",
 	"package": [
 		{
-			"checksumSHA1": "TjP5fj989y7e3Es+bXjNFFvGF1w=",
-			"path": "github.com/svera/acquire-sackson-driver",
-			"revision": "1492ad94c178b9b9e9c913542dc635e34ef1b04d",
-			"revisionTime": "2017-11-06T13:10:22Z"
+			"checksumSHA1": "AcraxuSPAMrANDb2ejfsArH5iJU=",
+			"path": "github.com/svera/acquire",
+			"revision": "6b6538b5bd3da00ab1138d929cfe557849904f0b",
+			"revisionTime": "2017-10-17T08:58:26Z"
 		},
 		{
-			"checksumSHA1": "uOoklQZc/2rafyMMqKfxQiE+hhY=",
-			"path": "github.com/svera/acquire-sackson-driver/corporation",
-			"revision": "1492ad94c178b9b9e9c913542dc635e34ef1b04d",
-			"revisionTime": "2017-11-06T13:10:22Z"
+			"checksumSHA1": "0AQL7d/bI1DJa2odw9d4/CPe2Eo=",
+			"path": "github.com/svera/acquire/board",
+			"revision": "6b6538b5bd3da00ab1138d929cfe557849904f0b",
+			"revisionTime": "2017-10-17T08:58:26Z"
 		},
 		{
-			"checksumSHA1": "bqXrvCVsLXgwxdFBqexn4y9lqK8=",
-			"path": "github.com/svera/acquire-sackson-driver/messages",
-			"revision": "1492ad94c178b9b9e9c913542dc635e34ef1b04d",
-			"revisionTime": "2017-11-06T13:10:22Z"
+			"checksumSHA1": "xmQ+qfRYbQ4m2GuMeUR1VeuYVEA=",
+			"path": "github.com/svera/acquire/bots",
+			"revision": "6b6538b5bd3da00ab1138d929cfe557849904f0b",
+			"revisionTime": "2017-10-17T08:58:26Z"
 		},
 		{
-			"checksumSHA1": "EDC2QqJA6SPRzqdrrn1uXHIQU6s=",
-			"path": "github.com/svera/acquire-sackson-driver/player",
-			"revision": "1492ad94c178b9b9e9c913542dc635e34ef1b04d",
-			"revisionTime": "2017-11-06T13:10:22Z"
+			"checksumSHA1": "pghaxwDzs6uXy52qn7j/o3V0VwM=",
+			"path": "github.com/svera/acquire/corporation",
+			"revision": "6b6538b5bd3da00ab1138d929cfe557849904f0b",
+			"revisionTime": "2017-10-17T08:58:26Z"
+		},
+		{
+			"checksumSHA1": "AjkEUzDH95h4TkIdwoiGJ9+xe/E=",
+			"path": "github.com/svera/acquire/fsm",
+			"revision": "6b6538b5bd3da00ab1138d929cfe557849904f0b",
+			"revisionTime": "2017-10-17T08:58:26Z"
+		},
+		{
+			"checksumSHA1": "9D8Ts6sucyqTf+up7/LCGBIwYME=",
+			"path": "github.com/svera/acquire/interfaces",
+			"revision": "6b6538b5bd3da00ab1138d929cfe557849904f0b",
+			"revisionTime": "2017-10-17T08:58:26Z"
+		},
+		{
+			"checksumSHA1": "k1rwu9zJ5K7vJU5TUPRkfnXBMKs=",
+			"path": "github.com/svera/acquire/player",
+			"revision": "6b6538b5bd3da00ab1138d929cfe557849904f0b",
+			"revisionTime": "2017-10-17T08:58:26Z"
+		},
+		{
+			"checksumSHA1": "oCv4S/+uB34ACXLJe3S1oeZfjc0=",
+			"path": "github.com/svera/acquire/tile",
+			"revision": "6b6538b5bd3da00ab1138d929cfe557849904f0b",
+			"revisionTime": "2017-10-17T08:58:26Z"
+		},
+		{
+			"checksumSHA1": "IdGX+uCBBxVf8OLipRErdhsfBnw=",
+			"path": "github.com/svera/acquire/tileset",
+			"revision": "6b6538b5bd3da00ab1138d929cfe557849904f0b",
+			"revisionTime": "2017-10-17T08:58:26Z"
 		}
 	],
 	"rootPath": "github.com/svera/acquire-sackson-driver"
