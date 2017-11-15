@@ -9,6 +9,7 @@ const (
 	TypeSellTrade        = "sel"
 	TypeUntieMerge       = "unt"
 	TypeEndGame          = "end"
+	TypeClientOut        = "out"
 )
 
 // PlayTile is a struct which defines the content of
@@ -105,4 +106,8 @@ type SellTradeAmounts struct {
 //   }
 type UntieMerge struct {
 	CorporationIndex int `json:"cor"`
+}
+
+type ClientOut struct {
+	Reason string `json:"rea"`
 }

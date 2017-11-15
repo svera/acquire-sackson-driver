@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 
 	"github.com/svera/acquire-sackson-driver/messages"
 	"github.com/svera/acquire/bots"
@@ -95,7 +94,7 @@ func (c *AIClient) encodeResponse(m bots.Message) (string, json.RawMessage) {
 	case bots.EndGameResponseType:
 		return c.encodeEndGame()
 	default:
-		panic(fmt.Sprintf("Unrecognized bot response: %s", m.Type))
+		return c.encodeOut()
 	}
 }
 
@@ -144,4 +143,12 @@ func (c *AIClient) encodeUntieMerge(response bots.UntieMergeResponseParams) (str
 
 func (c *AIClient) encodeEndGame() (string, json.RawMessage) {
 	return messages.TypeEndGame, nil
+}
+
+func (c *AIClient) encodeOut() (string, json.RawMessage) {
+	params := messages.ClientOut{
+		Reason: "fai",
+	}
+	ser, _ := json.Marshal(params)
+	return messages.TypeClientOut, ser
 }
