@@ -3,7 +3,7 @@ package main
 import (
 	"errors"
 
-	"github.com/svera/acquire-sackson-driver/messages"
+	"github.com/svera/acquire-sackson-driver/internal/messages"
 )
 
 func (b *AcquireDriver) claimEndGame(clientName string) error {

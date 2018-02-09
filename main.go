@@ -5,11 +5,12 @@ import (
 	"errors"
 
 	"github.com/svera/acquire"
-	"github.com/svera/acquire-sackson-driver/corporation"
-	"github.com/svera/acquire-sackson-driver/messages"
-	"github.com/svera/acquire-sackson-driver/player"
+	"github.com/svera/acquire-sackson-driver/internal/corporation"
+	"github.com/svera/acquire-sackson-driver/internal/messages"
+	"github.com/svera/acquire-sackson-driver/internal/player"
 	"github.com/svera/acquire/bots"
 	acquireInterfaces "github.com/svera/acquire/interfaces"
+	"github.com/svera/sackson-server/api"
 )
 
 // AcquireDriver implements the driver interface in order to be able to have
@@ -40,7 +41,7 @@ const NonexistentPlayer = "nonexistent_player"
 const CorporationNotFound = "corporation_not_found"
 
 // New initializes a new AcquireDriver instance
-func New() interface{} {
+func New() api.Driver {
 	return &AcquireDriver{
 		corporations: defaultCorporations(),
 	}
@@ -184,7 +185,7 @@ func (b *AcquireDriver) IsGameOver() bool {
 }
 
 // CreateAI create an instance of an AI of the passed level
-func (b *AcquireDriver) CreateAI(params interface{}) (interface{}, error) {
+func (b *AcquireDriver) CreateAI(params interface{}) (api.AI, error) {
 	var err error
 	var bot acquireInterfaces.Bot
 	if level, ok := params.(string); ok {
