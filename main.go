@@ -49,11 +49,11 @@ func New() api.Driver {
 
 // Execute gets an input JSON-encoded message and parses it, executing
 // whatever actions are required by it
-func (b *AcquireDriver) Execute(clientName string, t string, params json.RawMessage) error {
+func (b *AcquireDriver) Execute(clientName string, messageType string, params json.RawMessage) error {
 	var err error
 	b.history = nil
 
-	switch t {
+	switch messageType {
 	case messages.TypePlayTile:
 		var parsed messages.PlayTile
 		if err = json.Unmarshal(params, &parsed); err == nil {
