@@ -4,7 +4,7 @@ This package allows to build a driver to play [Acquire](https://boardgamegeek.co
 
 ## Requirements
 
-[Sackson server API](https://github.com/svera/sackson-server/blob/master/api/ai.go)
+[Sackson server API](https://github.com/svera/sackson-server/blob/master/api)
 
 ## Usage
 
