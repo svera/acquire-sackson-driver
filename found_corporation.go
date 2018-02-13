@@ -3,8 +3,8 @@ package main
 import (
 	"errors"
 
-	"github.com/svera/acquire-sackson-driver/corporation"
-	"github.com/svera/acquire-sackson-driver/messages"
+	"github.com/svera/acquire-sackson-driver/internal/corporation"
+	"github.com/svera/acquire-sackson-driver/internal/messages"
 )
 
 func (b *AcquireDriver) foundCorporation(clientName string, params messages.NewCorp) error {

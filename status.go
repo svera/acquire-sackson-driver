@@ -1,18 +1,18 @@
 package main
 
 import (
-	"encoding/json"
 	"errors"
 	"fmt"
 	"strconv"
 
-	"github.com/svera/acquire-sackson-driver/corporation"
-	"github.com/svera/acquire-sackson-driver/messages"
-	"github.com/svera/acquire-sackson-driver/player"
+	"github.com/svera/acquire-sackson-driver/internal/corporation"
+	"github.com/svera/acquire-sackson-driver/internal/messages"
+	"github.com/svera/acquire-sackson-driver/internal/player"
 	acquireInterfaces "github.com/svera/acquire/interfaces"
 )
 
-// Status return a JSON string with the current status of the game
+// Status return a status message with the current status of the game
+// as well as player specific information
 func (b *AcquireDriver) Status(playerNumber int) (interface{}, error) {
 	var msg interface{}
 
@@ -22,7 +22,7 @@ func (b *AcquireDriver) Status(playerNumber int) (interface{}, error) {
 
 	playerInfo, rivalsInfo, err := b.playersInfo(playerNumber)
 	if err != nil {
-		return json.RawMessage{}, err
+		return messages.Status{}, err
 	}
 	msg = messages.Status{
 		Board:       b.boardOwnership(),

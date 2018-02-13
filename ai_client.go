@@ -3,7 +3,7 @@ package main
 import (
 	"encoding/json"
 
-	"github.com/svera/acquire-sackson-driver/messages"
+	"github.com/svera/acquire-sackson-driver/internal/messages"
 	"github.com/svera/acquire/bots"
 	acquireInterfaces "github.com/svera/acquire/interfaces"
 )

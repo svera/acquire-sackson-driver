@@ -4,8 +4,8 @@ import (
 	"errors"
 	"strconv"
 
-	"github.com/svera/acquire-sackson-driver/corporation"
-	"github.com/svera/acquire-sackson-driver/messages"
+	"github.com/svera/acquire-sackson-driver/internal/corporation"
+	"github.com/svera/acquire-sackson-driver/internal/messages"
 	acquireInterfaces "github.com/svera/acquire/interfaces"
 )
 
