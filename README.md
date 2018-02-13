@@ -2,6 +2,10 @@
 
 This package allows to build a driver to play [Acquire](https://boardgamegeek.com/boardgame/5/acquire) using the [Sackson server](https://github.com/svera/sackson-server).
 
+## Requirements
+
+[Sackson server API](https://github.com/svera/sackson-server/blob/master/api/ai.go)
+
 ## Usage
 
 The provided Dockerfile specifies a container that will build the Sackson plugin in this directory when
