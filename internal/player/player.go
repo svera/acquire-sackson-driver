@@ -1,4 +1,4 @@
-// Package player contains the model Player and attahced methods which manages corporations in game
+// Package player contains the model Player and attached methods which manages players in game
 package player
 
 import acquirePlayer "github.com/svera/acquire/player"

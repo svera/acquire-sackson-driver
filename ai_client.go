@@ -6,6 +6,7 @@ import (
 	"github.com/svera/acquire-sackson-driver/internal/messages"
 	"github.com/svera/acquire/bots"
 	acquireInterfaces "github.com/svera/acquire/interfaces"
+	"github.com/svera/sackson-server/api"
 )
 
 // AIClient is a struct that implements Sackson's AI interface,
@@ -29,7 +30,7 @@ func (c *AIClient) FeedGameStatus(message json.RawMessage) error {
 
 // Play makes the AI execute an action, returning its type and the content
 // of the action to be executed as a JSON message.
-func (c *AIClient) Play() (string, json.RawMessage) {
+func (c *AIClient) Play() api.Action {
 	m := c.bot.Play()
 	bm := m.(bots.Message)
 	return c.encodeResponse(bm)
@@ -79,7 +80,7 @@ func (c *AIClient) updateBot(parsed messages.Status) {
 	c.bot.Update(st)
 }
 
-func (c *AIClient) encodeResponse(m bots.Message) (string, json.RawMessage) {
+func (c *AIClient) encodeResponse(m bots.Message) api.Action {
 	switch m.Type {
 	case bots.PlayTileResponseType:
 		return c.encodePlayTile(m.Params.(bots.PlayTileResponseParams))
@@ -98,31 +99,40 @@ func (c *AIClient) encodeResponse(m bots.Message) (string, json.RawMessage) {
 	}
 }
 
-func (c *AIClient) encodePlayTile(response bots.PlayTileResponseParams) (string, json.RawMessage) {
+func (c *AIClient) encodePlayTile(response bots.PlayTileResponseParams) api.Action {
 	params := messages.PlayTile{
 		Tile: response.Tile,
 	}
 	ser, _ := json.Marshal(params)
-	return messages.TypePlayTile, ser
+	return api.Action{
+		Type:   messages.TypePlayTile,
+		Params: ser,
+	}
 }
 
-func (c *AIClient) encodeFoundCorporation(response bots.NewCorpResponseParams) (string, json.RawMessage) {
+func (c *AIClient) encodeFoundCorporation(response bots.NewCorpResponseParams) api.Action {
 	params := messages.NewCorp{
 		CorporationIndex: response.CorporationIndex,
 	}
 	ser, _ := json.Marshal(params)
-	return messages.TypeFoundCorporation, ser
+	return api.Action{
+		Type:   messages.TypeFoundCorporation,
+		Params: ser,
+	}
 }
 
-func (c *AIClient) encodeBuyStock(response bots.BuyResponseParams) (string, json.RawMessage) {
+func (c *AIClient) encodeBuyStock(response bots.BuyResponseParams) api.Action {
 	params := messages.Buy{
 		CorporationsIndexes: response.CorporationsIndexes,
 	}
 	ser, _ := json.Marshal(params)
-	return messages.TypeBuyStock, ser
+	return api.Action{
+		Type:   messages.TypeBuyStock,
+		Params: ser,
+	}
 }
 
-func (c *AIClient) encodeSellTrade(response bots.SellTradeResponseParams) (string, json.RawMessage) {
+func (c *AIClient) encodeSellTrade(response bots.SellTradeResponseParams) api.Action {
 	params := messages.SellTrade{
 		CorporationsIndexes: map[string]messages.SellTradeAmounts{},
 	}
@@ -130,25 +140,37 @@ func (c *AIClient) encodeSellTrade(response bots.SellTradeResponseParams) (strin
 		params.CorporationsIndexes[k] = messages.SellTradeAmounts{Sell: v.Sell, Trade: v.Trade}
 	}
 	ser, _ := json.Marshal(params)
-	return messages.TypeSellTrade, ser
+	return api.Action{
+		Type:   messages.TypeSellTrade,
+		Params: ser,
+	}
 }
 
-func (c *AIClient) encodeUntieMerge(response bots.UntieMergeResponseParams) (string, json.RawMessage) {
+func (c *AIClient) encodeUntieMerge(response bots.UntieMergeResponseParams) api.Action {
 	params := messages.UntieMerge{
 		CorporationIndex: response.CorporationIndex,
 	}
 	ser, _ := json.Marshal(params)
-	return messages.TypeUntieMerge, ser
+	return api.Action{
+		Type:   messages.TypeUntieMerge,
+		Params: ser,
+	}
 }
 
-func (c *AIClient) encodeEndGame() (string, json.RawMessage) {
-	return messages.TypeEndGame, nil
+func (c *AIClient) encodeEndGame() api.Action {
+	return api.Action{
+		Type:   messages.TypeEndGame,
+		Params: nil,
+	}
 }
 
-func (c *AIClient) encodeOut() (string, json.RawMessage) {
+func (c *AIClient) encodeOut() api.Action {
 	params := messages.ClientOut{
 		Reason: "fai",
 	}
 	ser, _ := json.Marshal(params)
-	return messages.TypeClientOut, ser
+	return api.Action{
+		Type:   messages.TypeClientOut,
+		Params: ser,
+	}
 }
