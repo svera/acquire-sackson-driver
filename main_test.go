@@ -3,11 +3,13 @@ package main
 import (
 	"encoding/json"
 	"testing"
+
+	"github.com/svera/sackson-server/api"
 )
 
 func TestParseNonExistingTypeMessage(t *testing.T) {
 	driver := New().(*AcquireDriver)
-	err := driver.Execute("Test client", "err", json.RawMessage{})
+	err := driver.Execute(api.Action{PlayerName: "Test client", Type: "err", Params: json.RawMessage{}})
 	if err == nil {
 		t.Errorf("Driver must return an error when receiving a non-existing message type")
 	}
@@ -21,32 +23,32 @@ func TestParseWrongTypeMessage(t *testing.T) {
 	data := []byte(`{"aaa": "bbb"}`)
 	raw := (json.RawMessage)(data)
 
-	err := driver.Execute("Test client", "ply", raw)
+	err := driver.Execute(api.Action{PlayerName: "Test client", Type: "ply", Params: raw})
 	if err == nil {
 		t.Errorf("Driver must return an error when receiving a malformed message")
 	}
 
-	err = driver.Execute("Test client", "ncp", raw)
+	err = driver.Execute(api.Action{PlayerName: "Test client", Type: "ncp", Params: raw})
 	if err == nil {
 		t.Errorf("Driver must return an error when receiving a malformed message")
 	}
 
-	err = driver.Execute("Test client", "buy", raw)
+	err = driver.Execute(api.Action{PlayerName: "Test client", Type: "buy", Params: raw})
 	if err == nil {
 		t.Errorf("Driver must return an error when receiving a malformed message")
 	}
 
-	err = driver.Execute("Test client", "sel", raw)
+	err = driver.Execute(api.Action{PlayerName: "Test client", Type: "sel", Params: raw})
 	if err == nil {
 		t.Errorf("Driver must return an error when receiving a malformed message")
 	}
 
-	err = driver.Execute("Test client", "unt", raw)
+	err = driver.Execute(api.Action{PlayerName: "Test client", Type: "unt", Params: raw})
 	if err == nil {
 		t.Errorf("Driver must return an error when receiving a malformed message")
 	}
 
-	err = driver.Execute("Test client", "end", raw)
+	err = driver.Execute(api.Action{PlayerName: "Test client", Type: "end", Params: raw})
 	if err == nil {
 		t.Errorf("Driver must return an error when receiving a malformed message")
 	}

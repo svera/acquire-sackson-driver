@@ -49,38 +49,38 @@ func New() api.Driver {
 
 // Execute gets an input JSON-encoded message and parses it, executing
 // whatever actions are required by it
-func (b *AcquireDriver) Execute(clientName string, messageType string, params json.RawMessage) error {
+func (b *AcquireDriver) Execute(action api.Action) error {
 	var err error
 	b.history = nil
 
-	switch messageType {
+	switch action.Type {
 	case messages.TypePlayTile:
 		var parsed messages.PlayTile
-		if err = json.Unmarshal(params, &parsed); err == nil {
-			err = b.playTile(clientName, parsed)
+		if err = json.Unmarshal(action.Params, &parsed); err == nil {
+			err = b.playTile(action.PlayerName, parsed)
 		}
 	case messages.TypeFoundCorporation:
 		var parsed messages.NewCorp
-		if err = json.Unmarshal(params, &parsed); err == nil {
-			err = b.foundCorporation(clientName, parsed)
+		if err = json.Unmarshal(action.Params, &parsed); err == nil {
+			err = b.foundCorporation(action.PlayerName, parsed)
 		}
 	case messages.TypeBuyStock:
 		var parsed messages.Buy
-		if err = json.Unmarshal(params, &parsed); err == nil {
-			err = b.buyStock(clientName, parsed)
+		if err = json.Unmarshal(action.Params, &parsed); err == nil {
+			err = b.buyStock(action.PlayerName, parsed)
 		}
 	case messages.TypeSellTrade:
 		var parsed messages.SellTrade
-		if err = json.Unmarshal(params, &parsed); err == nil {
-			err = b.sellTrade(clientName, parsed)
+		if err = json.Unmarshal(action.Params, &parsed); err == nil {
+			err = b.sellTrade(action.PlayerName, parsed)
 		}
 	case messages.TypeUntieMerge:
 		var parsed messages.UntieMerge
-		if err = json.Unmarshal(params, &parsed); err == nil {
-			err = b.untieMerge(clientName, parsed)
+		if err = json.Unmarshal(action.Params, &parsed); err == nil {
+			err = b.untieMerge(action.PlayerName, parsed)
 		}
 	case messages.TypeEndGame:
-		err = b.claimEndGame(clientName)
+		err = b.claimEndGame(action.PlayerName)
 	default:
 		err = errors.New(WrongMessage)
 	}
