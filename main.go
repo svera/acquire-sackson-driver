@@ -5,10 +5,10 @@ import (
 	"errors"
 
 	"github.com/svera/acquire"
+	"github.com/svera/acquire-sackson-driver/internal/bots"
 	"github.com/svera/acquire-sackson-driver/internal/corporation"
 	"github.com/svera/acquire-sackson-driver/internal/messages"
 	"github.com/svera/acquire-sackson-driver/internal/player"
-	"github.com/svera/acquire/bots"
 	acquireInterfaces "github.com/svera/acquire/interfaces"
 	"github.com/svera/sackson-server/api"
 )
@@ -187,12 +187,10 @@ func (b *AcquireDriver) IsGameOver() bool {
 // CreateAI create an instance of an AI of the passed level
 func (b *AcquireDriver) CreateAI(params interface{}) (api.AI, error) {
 	var err error
-	var bot acquireInterfaces.Bot
+	var ai api.AI
 	if level, ok := params.(string); ok {
-		if bot, err = bots.Create(level); err == nil {
-			return &AIClient{
-				bot: bot,
-			}, nil
+		if ai, err = bots.Create(level); err == nil {
+			return ai, nil
 		}
 		return nil, err
 	}
